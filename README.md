@@ -10,3 +10,4 @@ you can see:
 -RAM
 -and info about your phone
 -cpu info (not implemented yet but im working on it)
+
