@@ -10,3 +10,5 @@ you can see: storage,RAM,and info about your phone,cpu AND NOW WITH WIDGET
 developed on my macbook air from early 2015 with macos 15 
 
 KEEPING THE APP FREE BABY
+
+Copyright (c) 2025 Nathan
