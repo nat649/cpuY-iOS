@@ -1,5 +1,4 @@
-# cpuY WARNING this repo will be ended in 2026 (or i dont know) go to [
-](https://github.com/cpuY-team/cpuY) for latest of cpuY software
+# cpuY WARNING this repo will be ended in 2026 (or i dont know) go to https://github.com/cpuY-team/cpuY for latest of cpuY software
 
 
 cpuY is an app for ios (and probably android later) with no ads and free
