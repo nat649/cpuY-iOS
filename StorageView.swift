@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct StorageView: View {
-    @State private var totalStorage: String = "Chargement..."
-    @State private var usedStorage: String = "Chargement..."
-    @State private var freeStorage: String = "Chargement..."
+    @State private var totalStorage: String = "Loading..."
+    @State private var usedStorage: String = "Loading..."
+    @State private var freeStorage: String = "Loading..."
     @State private var usedPercentage: Double = 0.0
 
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
@@ -12,23 +12,24 @@ struct StorageView: View {
         NavigationView {
             List {
                 VStack(alignment: .leading) {
-                    Text("Utilisation du stockage")
+                    Text("Storage Usage")
                         .font(.headline)
+
                     ProgressView(value: usedPercentage)
                         .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                         .padding(.vertical, 5)
                 }
 
-                infoRow(label: "Stockage utilisé", value: usedStorage)
-                infoRow(label: "Stockage libre", value: freeStorage)
-                infoRow(label: "Stockage total", value: totalStorage)
+                infoRow(label: "Used Storage", value: usedStorage)
+                infoRow(label: "Free Storage", value: freeStorage)
+                infoRow(label: "Total Storage", value: totalStorage)
 
-                Text("Les valeurs sont estimées et mises à jour automatiquement toutes les 2 secondes.")
+                Text("Values are estimated and automatically updated every 2 seconds.")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.top, 8)
             }
-            .navigationTitle("Stockage")
+            .navigationTitle("Storage")
             .onAppear {
                 updateStorageInfo()
             }
@@ -48,15 +49,16 @@ struct StorageView: View {
             let used = total - free
             let percentUsed = used / total
 
-            totalStorage = String(format: "%.2f Go", total)
-            freeStorage = String(format: "%.2f Go", free)
-            usedStorage = String(format: "%.2f Go", used)
+            totalStorage = String(format: "%.2f GB", total)
+            freeStorage = String(format: "%.2f GB", free)
+            usedStorage = String(format: "%.2f GB", used)
             usedPercentage = percentUsed
         } else {
-            totalStorage = "Erreur"
-            freeStorage = "Erreur"
-            usedStorage = "Erreur"
+            totalStorage = "Error"
+            freeStorage = "Error"
+            usedStorage = "Error"
             usedPercentage = 0.0
         }
     }
 }
+

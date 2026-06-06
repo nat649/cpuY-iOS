@@ -1,4 +1,3 @@
-
 import SwiftUI
 
 struct BatteryView: View {
@@ -15,16 +14,16 @@ struct BatteryView: View {
     var body: some View {
         NavigationView {
             List {
-                infoRow(label: "Niveau de batterie", value: batteryLevelText)
-                infoRow(label: "État de la batterie", value: batteryStatusText)
-                infoRow(label: "Temps d'utilisation", value: batteryUsageText)
+                infoRow(label: "Battery Level", value: batteryLevelText)
+                infoRow(label: "Battery Status", value: batteryStatusText)
+                infoRow(label: "Estimated Usage Time", value: batteryUsageText)
 
-                Text("Note: Depuis iOS 17, les apps n'ont plus accès au niveau exact de batterie. Il est arrondi par palier de 5%.")
+                Text("Note: Since iOS 17, apps no longer have access to the exact battery level. It is rounded to 5% increments.")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.top, 8)
             }
-            .navigationTitle("Batterie")
+            .navigationTitle("Battery")
             .onAppear {
                 updateBatteryInfo()
             }
@@ -43,7 +42,7 @@ struct BatteryView: View {
     func batteryLevel() -> String {
         let level = UIDevice.current.batteryLevel
         if level < 0 {
-            return "Non disponible"
+            return "Unavailable"
         } else {
             let percent = Int(level * 100)
             return "\(percent)%"
@@ -53,22 +52,22 @@ struct BatteryView: View {
     func batteryStatus() -> String {
         switch UIDevice.current.batteryState {
         case .unknown:
-            return "Inconnu"
+            return "Unknown"
         case .unplugged:
-            return "Sur batterie"
+            return "On Battery"
         case .charging:
-            return "En charge"
+            return "Charging"
         case .full:
-            return "Chargée"
+            return "Fully Charged"
         @unknown default:
-            return "Inconnu"
+            return "Unknown"
         }
     }
 
     func usageTime() -> String {
         let batteryLevel = UIDevice.current.batteryLevel
         if batteryLevel < 0 {
-            return "Non disponible"
+            return "Unavailable"
         }
 
         let batteryPercentage = batteryLevel * 100
@@ -78,6 +77,8 @@ struct BatteryView: View {
         let hours = remainingMinutes / 60
         let minutes = remainingMinutes % 60
 
-        return "\(hours)h \(minutes)m estimées restantes"
+        return "\(hours)h \(minutes)m estimated remaining"
     }
 }
+
+

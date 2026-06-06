@@ -11,13 +11,17 @@ import SwiftUI
 struct ScreenView: View {
     var body: some View {
         NavigationView {
-            List {
-                infoRow(label: "Résolution", value: "\(Int(UIScreen.main.nativeBounds.width)) x \(Int(UIScreen.main.nativeBounds.height))")
-                infoRow(label: "Taux max", value: refreshRate())
-                infoRow(label: "True Tone", value: isTrueToneAvailable() ? "Oui" : "Non")
-                infoRow(label: "Luminosité", value: "\(Int(UIScreen.main.brightness * 100))%")
+            if #available(iOS 14.0, *) {
+                List {
+                    infoRow(label: "Resolution", value: "\(Int(UIScreen.main.nativeBounds.width)) x \(Int(UIScreen.main.nativeBounds.height))")
+                    infoRow(label: "Maximum Refresh Rate", value: refreshRate())
+                    infoRow(label: "True Tone", value: isTrueToneAvailable() ? "Yes" : "No")
+                    infoRow(label: "Brightness", value: "\(Int(UIScreen.main.brightness * 100))%")
+                }
+                .navigationTitle("Display")
+            } else {
+                // Fallback on earlier versions
             }
-            .navigationTitle("Écran")
         }
     }
 

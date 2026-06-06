@@ -1,3 +1,4 @@
+
 import SwiftUI
 
 struct MainTabView: View {
@@ -5,17 +6,17 @@ struct MainTabView: View {
         TabView {
             InfoView()
                 .tabItem {
-                    Label("Infos", systemImage: "iphone")
+                    Label("Info", systemImage: "iphone")
                 }
 
             BatteryView()
                 .tabItem {
-                    Label("Batterie", systemImage: "battery.75")
+                    Label("Battery", systemImage: "battery.75")
                 }
 
             StorageView()
                 .tabItem {
-                    Label("Stockage", systemImage: "externaldrive")
+                    Label("Storage", systemImage: "externaldrive")
                 }
 
             RAMView()
@@ -30,18 +31,25 @@ struct MainTabView: View {
 
             NetworkView()
                 .tabItem {
-                    Label("Réseau", systemImage: "wifi")
+                    Label("Network", systemImage: "wifi")
                 }
 
             ScreenView()
                 .tabItem {
-                    Label("Écran", systemImage: "display")
+                    Label("Display", systemImage: "display")
                 }
 
             SecurityView()
                 .tabItem {
-                    Label("Sécurité", systemImage: "lock.shield")
+                    Label("Security", systemImage: "lock.shield")
+                }
+
+            AboutView()
+                .tabItem {
+                    Label("About", systemImage: "info.circle")
                 }
         }
     }
 }
+
+

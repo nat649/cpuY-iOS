@@ -1,9 +1,9 @@
 import SwiftUI
 
 struct RAMView: View {
-    @State private var usedMemory: String = "Chargement..."
-    @State private var freeMemory: String = "Chargement..."
-    @State private var totalMemory: String = "Chargement..."
+    @State private var usedMemory: String = "Loading..."
+    @State private var freeMemory: String = "Loading..."
+    @State private var totalMemory: String = "Loading..."
     @State private var usagePercentage: Double = 0.0
 
     let timer = Timer.publish(every: 2, on: .main, in: .common).autoconnect()
@@ -12,18 +12,18 @@ struct RAMView: View {
         NavigationView {
             List {
                 VStack(alignment: .leading) {
-                    Text("Utilisation de la RAM")
+                    Text("RAM Usage")
                         .font(.headline)
+
                     ProgressView(value: usagePercentage)
-                        .progressViewStyle(LinearProgressViewStyle(tint: .green))
                         .padding(.vertical, 5)
                 }
 
-                infoRow(label: "RAM utilisée", value: usedMemory)
-                infoRow(label: "RAM libre", value: freeMemory)
-                infoRow(label: "RAM totale", value: totalMemory)
+                infoRow(label: "Used RAM", value: usedMemory)
+                infoRow(label: "Free RAM", value: freeMemory)
+                infoRow(label: "Total RAM", value: totalMemory)
 
-                Text("La mémoire est estimée en Go et mise à jour toutes les 2 secondes.")
+                Text("Memory usage is estimated in GB and updated every 2 seconds.")
                     .font(.footnote)
                     .foregroundColor(.gray)
                     .padding(.top, 8)
@@ -43,7 +43,9 @@ struct RAMView: View {
         let totalGB = Double(total) / 1073741824.0
 
         var vmStats = vm_statistics64()
-        var count = mach_msg_type_number_t(MemoryLayout.size(ofValue: vmStats) / MemoryLayout<integer_t>.size)
+        var count = mach_msg_type_number_t(
+            MemoryLayout.size(ofValue: vmStats) / MemoryLayout<integer_t>.size
+        )
 
         let result = withUnsafeMutablePointer(to: &vmStats) {
             $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
@@ -52,17 +54,23 @@ struct RAMView: View {
         }
 
         if result == KERN_SUCCESS {
-            let free = Double(vmStats.free_count + vmStats.inactive_count) * Double(vm_page_size) / 1073741824.0
+
+            var pageSize: vm_size_t = 0
+            host_page_size(mach_host_self(), &pageSize)
+
+            let free = Double(vmStats.free_count + vmStats.inactive_count)
+                * Double(pageSize) / 1073741824.0
+
             let used = totalGB - free
 
-            usedMemory = String(format: "%.2f Go", used)
-            freeMemory = String(format: "%.2f Go", free)
-            totalMemory = String(format: "%.2f Go", totalGB)
+            usedMemory = String(format: "%.2f GB", used)
+            freeMemory = String(format: "%.2f GB", free)
+            totalMemory = String(format: "%.2f GB", totalGB)
             usagePercentage = used / totalGB
         } else {
-            usedMemory = "Erreur"
-            freeMemory = "Erreur"
-            totalMemory = String(format: "%.2f Go", totalGB)
+            usedMemory = "Error"
+            freeMemory = "Error"
+            totalMemory = String(format: "%.2f GB", totalGB)
             usagePercentage = 0.0
         }
     }

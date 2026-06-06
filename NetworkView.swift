@@ -13,11 +13,11 @@ struct NetworkView: View {
     var body: some View {
         NavigationView {
             List {
-                infoRow(label: "Connexion", value: connectionType())
-                infoRow(label: "Nom du Wi-Fi", value: wifiSSID() ?? "Non disponible")
-                infoRow(label: "IP locale", value: localIPAddress() ?? "Non disponible")
+                infoRow(label: "Connection", value: connectionType())
+                infoRow(label: "Wi-Fi Name", value: wifiSSID() ?? "Unavailable")
+                infoRow(label: "Local IP", value: localIPAddress() ?? "Unavailable")
             }
-            .navigationTitle("Réseau")
+            .navigationTitle("Network")
         }
     }
 
@@ -25,9 +25,9 @@ struct NetworkView: View {
         let reachability = try? Reachability()
         switch reachability?.connection {
         case .wifi: return "Wi-Fi"
-        case .cellular: return "Cellulaire"
-        case .unavailable: return "Aucune"
-        default: return "Inconnu"
+        case .cellular: return "Cellular"
+        case .unavailable: return "None"
+        default: return "Unknown"
         }
     }
 
@@ -57,9 +57,15 @@ struct NetworkView: View {
                    let name = String(validatingUTF8: interface.pointee.ifa_name),
                    name == "en0" {
                     var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
-                    getnameinfo(interface.pointee.ifa_addr, socklen_t(interface.pointee.ifa_addr.pointee.sa_len),
-                                &hostname, socklen_t(hostname.count),
-                                nil, socklen_t(0), NI_NUMERICHOST)
+                    getnameinfo(
+                        interface.pointee.ifa_addr,
+                        socklen_t(interface.pointee.ifa_addr.pointee.sa_len),
+                        &hostname,
+                        socklen_t(hostname.count),
+                        nil,
+                        socklen_t(0),
+                        NI_NUMERICHOST
+                    )
                     address = String(cString: hostname)
                 }
             }
@@ -68,3 +74,4 @@ struct NetworkView: View {
         return address
     }
 }
+
