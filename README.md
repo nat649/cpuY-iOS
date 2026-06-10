@@ -1,3 +1,8 @@
+# this repo will be archived and no more release on this repo 
+# go to this new repo https://github.com/cpuY-team/cpuY-iOS 
+
+
+
 cpuY is an app for ios (and probably android later) with no ads and free
 
 but what is cpuY. cpuY is a app made for monitor your phone 
